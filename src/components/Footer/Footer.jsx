@@ -6,7 +6,7 @@ import { FaLinkedin } from "react-icons/fa6";
 function Footer() {
   return (
     <footer>
-      <a href="" className="footer_logo">
+      <a href="#" className="footer_logo">
         FAIZA
       </a>
 

@@ -1,16 +1,26 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import "./contact.css";
 import { MdOutlineMail } from "react-icons/md";
 import { FaLinkedin } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
-import { useRef } from "react";
 import emailjs from "@emailjs/browser";
 
 function Contact() {
   const form = useRef();
 
+  const [sending, setSending] = useState("");
+  const [sentSuccess, setSentSuccess] = useState("");
+
   const sendEmail = (e) => {
     e.preventDefault();
+
+    setSending(true);
+    setSentSuccess(false);
+
+    setTimeout(() => {
+      setSending(false);
+      setSentSuccess(true);
+    }, 2000);
 
     emailjs
       .sendForm("service_f5eflpx", "template_vpbuv4s", form.current, {
@@ -24,6 +34,10 @@ function Contact() {
           console.log("FAILED...", error.text);
         }
       );
+
+    setTimeout(() => {
+      form.current.reset();
+    }, 2000);
   };
 
   return (
@@ -73,9 +87,12 @@ function Contact() {
             placeholder="Your message"
             required
           ></textarea>
-          <button type="submit" className="btn btn-primary">
-            Send message
+          <button type="submit" className="btn btn-primary" disabled={sending}>
+            {sending ? "Sending..." : "Send message"}
           </button>
+
+          {/* {sending && <p>Sending your message...</p>} */}
+          {sentSuccess && <p>Your message was sent successfully!</p>}
         </form>
       </div>
     </section>
